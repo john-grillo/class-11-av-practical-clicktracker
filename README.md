@@ -3,3 +3,5 @@
 
 This is the readme file that should have been initialized.
 Learning more about canvas, CSS3 and JS. In particular, charts.js
+
+My assignment is inside the 'lab' folder.
