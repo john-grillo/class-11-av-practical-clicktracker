@@ -21,6 +21,7 @@ var path = ['wine-glass.jpg', 'bathroom.jpg', 'water-can.jpg', 'chair.jpg', 'bub
   'sweep.png', 'dog-duck.jpg', 'breakfast.jpg', 'bag.jpg', 'tauntaun.jpg', 'banana.jpg', 'john-grillo.jpg'];
 var items = [];
 var displayIndex = 0;
+// var randomIndex = generateRandomNumber();
 
 //Meat of program here:
 //Grab two lines
@@ -38,6 +39,7 @@ displayArea.addEventListener('click', clickHandler);
 function ItemImage(path) {
   this.path = '..lab/assets/imgs' + path;
   this.clicked = 0;
+  console.log(clicked);
 };
 
 //random number generator here.
@@ -46,13 +48,17 @@ function generateRandomNumber() {
   return Math.floor(Math.random() * path.length);
 };
 
+
 //changePicture function will replace old image with new one for all 3 images
 function changePicture() {
-  //grab the appropriate field; replace the image in image_one.
+  //grab the appropriate field; replace the image in image_[one, two, three].
   var imageOne = document.getElementById('image_one');
   var imageTwo = document.getElementById('image_two');
-  var imageTHree = document.getElementById('image_three');
+  var imageThree = document.getElementById('image_three');
+
+  //create random index to get new image
   var randomIndex = generateRandomNumber();
+
 
   //as long as the previous image is displayed,
   //a new one will be generated.
@@ -62,6 +68,21 @@ function changePicture() {
 
   displayIndex = randomIndex;
   imageOne.src = 'assets/imgs/' + path[randomIndex];
+  // var imgOneCollisionAvoider = imageOne.src;
+
+//update imageTwo
+  while (displayIndex === randomIndex) {
+    randomIndex = generateRandomNumber();
+  }
+  displayIndex = randomIndex;
+  imageTwo.src = 'assets/imgs/' + path[randomIndex];
+
+  //update imageThree
+  while (displayIndex === randomIndex) {
+    randomIndex = generateRandomNumber();
+  }
+  displayIndex = randomIndex;
+  imageThree.src = 'assets/imgs/' + path[randomIndex];
 
 //close of changePicture function.
 }
