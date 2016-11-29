@@ -51,6 +51,26 @@ function generateRandomNumber() {
   return Math.floor(Math.random() * path.length);
 };
 
+//implementing the fisher-yates method since I know the number of array items
+//lovingly liberated from: https://bost.ocks.org/mike/shuffle/
+function shuffle(array) {
+  var m = path.length, t, i;
+
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+};
+
 
 //changePicture function will replace old image with new one for all 3 images
 function changePicture() {
@@ -58,7 +78,7 @@ function changePicture() {
   var imageOne = document.getElementById('image_one');
   var imageTwo = document.getElementById('image_two');
   var imageThree = document.getElementById('image_three');
-  var collissionCheck = 0;
+  //var collissionCheck = 0;
 
   //create random index to get new image
   var randomIndex = generateRandomNumber();
@@ -67,6 +87,7 @@ function changePicture() {
   //as long as the previous image is displayed,
   //a new one will be generated.
   while (displayIndex === randomIndex) {
+    shuffle(path);
     randomIndex = generateRandomNumber();
   }
   displayIndex = randomIndex;
@@ -74,6 +95,7 @@ function changePicture() {
 
 //update imageTwo
   while (displayIndex === randomIndex) {
+    shuffle(path);
     randomIndex = generateRandomNumber();
   }
   displayIndex = randomIndex;
@@ -81,6 +103,7 @@ function changePicture() {
 
   //update imageThree
   while (displayIndex === randomIndex) {
+    shuffle(path);
     randomIndex = generateRandomNumber();
   }
   displayIndex = randomIndex;
