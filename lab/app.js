@@ -40,8 +40,9 @@ for(var i = 0; i < path.length; i++) {
 //constructor function ItemImage here.
 //makes a
 function ItemImage(path) {
-  this.path = '..lab/assets/imgs' + path;
+  this.path = '..lab/assets/imgs/' + path;
   this.clicked = 0;
+  this.name = this.path.split('assets/imgs/')[1];
 };
 
 //random number generator here.
@@ -99,12 +100,12 @@ function clickHandler(event) {
 
 
   for (var i = 0; i < items.length; i++) {
-    itemPath = items[i].path.split('assets/imgs')[1];
-    // console.log(itemPath);
-    // console.log(targetPath);
+    itemPath = items[i].path.split('assets/imgs/')[1];
+    //  console.log(itemPath);
+    //  console.log(targetPath);
     if (itemPath === targetPath) {
       items[i].clicked += 1;
-      console.log('hello, from inside the if struct');
+      console.log('Item ' + items[i].name);
       console.log(items[i].clicked);
     }
   }
