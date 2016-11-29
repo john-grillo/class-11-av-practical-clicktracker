@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /***********************
  ***UNIVERSAL VARIABLES*
 ************************/
@@ -27,9 +27,12 @@ var displayIndex = 0;
 //Grab two lines
 var displayArea = document.getElementById('image_display_field');
 displayArea.addEventListener('click', clickHandler);
+
 //for loop to construct new images
-
-
+for(var i = 0; i < path.length; i++) {
+  var newItem = new ItemImage(path[i]);
+  items.push(newItem);
+}
 
 /*************************************
 ****FUNCTION DECLARATION SECTION HERE*
@@ -39,7 +42,6 @@ displayArea.addEventListener('click', clickHandler);
 function ItemImage(path) {
   this.path = '..lab/assets/imgs' + path;
   this.clicked = 0;
-  console.log(clicked);
 };
 
 //random number generator here.
@@ -55,6 +57,7 @@ function changePicture() {
   var imageOne = document.getElementById('image_one');
   var imageTwo = document.getElementById('image_two');
   var imageThree = document.getElementById('image_three');
+  var collissionCheck = 0;
 
   //create random index to get new image
   var randomIndex = generateRandomNumber();
@@ -65,10 +68,8 @@ function changePicture() {
   while (displayIndex === randomIndex) {
     randomIndex = generateRandomNumber();
   }
-
   displayIndex = randomIndex;
   imageOne.src = 'assets/imgs/' + path[randomIndex];
-  // var imgOneCollisionAvoider = imageOne.src;
 
 //update imageTwo
   while (displayIndex === randomIndex) {
@@ -87,16 +88,24 @@ function changePicture() {
 //close of changePicture function.
 }
 
-//function clickHandler will generate new change in the
+//function clickHandler will generate new change in the images
+// and then update number of times image was clicked
 function clickHandler(event) {
   var targetString = event.target.src;
-  var targetPath = targetString.split('assets')[1];
+  var targetPath = targetString.split('assets/imgs/')[1];
   var itemPath;
+  // console.log('go clickhandler');
+  // console.log(targetString.split('assets/imgs/')[1]);
+
 
   for (var i = 0; i < items.length; i++) {
-    itemPath = items[i].path.split('assets')[1];
+    itemPath = items[i].path.split('assets/imgs')[1];
+    // console.log(itemPath);
+    // console.log(targetPath);
     if (itemPath === targetPath) {
       items[i].clicked += 1;
+      console.log('hello, from inside the if struct');
+      console.log(items[i].clicked);
     }
   }
 
