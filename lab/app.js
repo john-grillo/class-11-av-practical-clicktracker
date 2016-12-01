@@ -2,19 +2,10 @@
 /***********************
  ***UNIVERSAL VARIABLES*
 ************************/
-/*attempting to solve the problem of duplicate images by splitting
- the list of 21 images into 3 arrays with 7 images each in them.
- So in essence, a multi-dimensional array.
- I cheated by creating an extra image of myself.
+/*
+The 3-img-array approach was abandoned because it involved way too much effort
+and I had to work in real life to make money and pay bills.
 */
-
-//first the 3 arrays of 7 images.
-// var path = ['sweep.png', 'dog-duck.jpg', 'breakfast.jpg', 'bag.jpg', 'tauntaun.jpg', 'banana.jpg', 'john-grillo.jpg'];
-// var path2 = ['usb.gif', 'sweep.png', 'dragon.jpg', 'pen.jpg', 'scissors.jpg', 'shark.jpg', 'cthulu.jpg'];
-// var path3 = ['wine-glass.jpg', 'bathroom.jpg', 'water-can.jpg', 'chair.jpg', 'bubblegum.jpg', 'unicorn.jpg', 'pet-sweep.jpg'];
-
-//Now setting up the 3 arrays, a container to put the new array into
-// And a default display index.
 
 var path = ['wine-glass.jpg', 'bathroom.jpg', 'water-can.jpg', 'chair.jpg', 'bubblegum.jpg',
  'unicorn.jpg', 'pet-sweep.jpg', 'usb.gif', 'sweep.png', 'dragon.jpg',
@@ -23,8 +14,9 @@ var path = ['wine-glass.jpg', 'bathroom.jpg', 'water-can.jpg', 'chair.jpg', 'bub
   'john-grillo.jpg'];
 var items = [];
 var displayIndex = 0;
-var displayIndices = [0, 0, 0]
+var displayIndices = [0, 0, 0];
 var totalClicks = 0;
+var previousImgSet = [0, 0, 0];
 // var randomIndex = generateRandomNumber();
 
 //Meat of program here:
@@ -59,50 +51,50 @@ function generateRandomNumber() {
 //this function is to make a smaller, non duplicate numbers to choose for our
 //3 market image research
 function generateRandomIndices(){
-  //make an array of 3 numbers, generate random ones based on our list of photos
-  var arrayOfRandomIndices = [];
-  arrayOfRandomIndices[0] = generateRandomNumber();
-  arrayOfRandomIndices[1] = generateRandomNumber();
+  //A special thank-you for Aaron, for clarifying to myself and the class
+  // what exactly the simpler solution was. Was banging my head around this one for 2 days.
 
-  //check first index against the next one
-  while (arrayOfRandomIndices[0] === arrayOfRandomIndices[1]){
-    arrayOfRandomIndices[1] = generateRandomNumber();
+  /* So how it works:
+    I generate a new array, indices, to store the images I'll be returning.
+    uniqueIndex is a variable that will store one unique image at a time.
+    The for loop is a hard variable because I will only ever display 3 items.
+    The do-while loop will always execute.
+    The while condition will use the .indexOf to check if the number is already
+    NOT in the array indices and then check against the previousImgSet. Again, is it not there?
+    Finally, the last line of the for-loop will push it into the indices array.
+    previousImgSet is a global variable to store the previous image array set.
+
+    from MDN:
+    The indexOf() method returns the first index at which a given element can
+     be found in the array, or -1 if it is not present.
+  */
+  var indices = [];
+  var uniqueIndex;
+  for (var i = 0; i < 3; i++) {
+    do {
+      uniqueIndex = generateRandomNumber();
+    } while (indices.indexOf(uniqueIndex) !== -1
+            || previousImgSet.indexOf(uniqueIndex) !== -1);
+
+    indices.push(uniqueIndex);
   }
 
-  // generate 3rd item and then check against the 3rd item and first and second.
-  // make sure they are different.
-  arrayOfRandomIndices[2] = generateRandomNumber();
-  while (arrayOfRandomIndices[2] === arrayOfRandomIndices[1]
-         || arrayOfRandomIndices[2] === arrayOfRandomIndices[0])
-  {
-    arrayOfRandomIndices[2] = generateRandomNumber();
-  }
-
-  return arrayOfRandomIndices;
+  return indices;
 
 //end of function generateRandomIndices
 };
 
-//implementing the fisher-yates method since I know the number of array items
-//lovingly liberated from: https://bost.ocks.org/mike/shuffle/
-function shuffle(array) {
-  var m = path.length, t, i;
+function checkPreviousPics(arrayOfRandomIndices, previousImgSet){
+  var checkedArray = arrayOfRandomIndices.concat(previousImgSet);
+  checkedArray.filter(function (el, i, arr) {
+    return arr.indexOf(el) === i;
+  });
 
-  // While there remain elements to shuffle…
-  while (m) {
+  console.log('checkPreviousPics returns ' + checkedArray.slice(0, 3));
+  return checkedArray.slice(0, 3);
 
-    // Pick a remaining element…
-    i = Math.floor(Math.random() * m--);
-
-    // And swap it with the current element.
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-
-  return array;
-};
-
+//end of checkPrevPics function
+}
 
 //changePicture function will replace old image with new one for all 3 images
 function changePicture() {
@@ -110,11 +102,13 @@ function changePicture() {
   var imageOne = document.getElementById('image_one');
   var imageTwo = document.getElementById('image_two');
   var imageThree = document.getElementById('image_three');
-  //var collissionCheck = 0;
+
+  // checkPreviousPics(previousImgSet);
 
   //create random index to get new image
-  var randomIndex = generateRandomNumber();
+  // var randomIndex = generateRandomNumber();
   var arrayOfRandomIndices = generateRandomIndices();
+  arrayOfRandomIndices = checkPreviousPics(arrayOfRandomIndices, previousImgSet);
 
   //as long as the previous image is displayed,
   //a new one will be generated.
@@ -122,6 +116,7 @@ function changePicture() {
   imageTwo.src = items[arrayOfRandomIndices[1]].path;
   imageThree.src = items[arrayOfRandomIndices[2]].path;
   displayIndices = arrayOfRandomIndices;
+  previousImgSet = arrayOfRandomIndices;
 
 //close of changePicture function.
 }
@@ -137,26 +132,13 @@ function clickHandler(event) {
     alert(msg);
     console.log(msg);
   }
-
-  var targetString = event.target.src;
-  var targetPath = targetString.split('assets/imgs/')[1];
-  var itemPath;
+  //update global counter to quit test.
   totalClicks += 1;
-  // console.log('go clickhandler');
-  // console.log(targetString.split('assets/imgs/')[1]);
 
-  //and this part updates the click counter for the object image
-  for (var i = 0; i < items.length; i++) {
-    itemPath = items[i].path.split('assets/imgs/')[1];
-    //  console.log(itemPath);
-    //  console.log(targetPath);
-    if (itemPath === targetPath) {
-      items[i].clicked += 1;
-      console.log('User selected ' + items[i].name);
-      console.log(items[i].clicked);
-    }
-  }
+  //add clicks to times shown and to times clicked.
+  addClicks();
 
+  //and then the new pictures are loaded.
   changePicture();
 
 //end of the clickHandler function
@@ -164,15 +146,18 @@ function clickHandler(event) {
 
 //the addClicks function adds one to both the times shown and number of times
 //that the object is selected by the user.
-function addClicks(path) {
-  var targetPath = path.split('assets/imgs/')[1];
+function addClicks() {
+  var targetString = event.target.src;
+  var targetPath = targetString.split('assets/imgs/')[1];
   var itemPath;
   var displayIndex;
 
   //this should update the object shown property;
-  for (var k = 0; displayIndices.length; k++) {
+  for (var k = 0; k < displayIndices.length; k++) {
     displayIndex = displayIndices[k];
     items[displayIndex].shown++;
+    // console.log('Item ' + items[k].name + ' has been shown ' + items[k].shown);
+    // console.log(items[k].shown);
   }
 
   //and this part updates the click counter for the object image
@@ -182,8 +167,8 @@ function addClicks(path) {
     //  console.log(targetPath);
     if (itemPath === targetPath) {
       items[i].clicked += 1;
-      console.log('User selected ' + items[i].name);
-      console.log(items[i].clicked);
+      // console.log('User selected ' + items[i].name);
+      // console.log(items[i].clicked);
     }
   }
 
