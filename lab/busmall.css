@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+main {
+  width: 90%;
+}
+
 #image_display_field {
   background: #e7a61a; /*goldenrod*/
 
