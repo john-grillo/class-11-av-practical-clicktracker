@@ -131,6 +131,8 @@ function clickHandler(event) {
     endTest.innerHTML = '<h1> THIS IS THE END OF TEST. HERE ARE THE CHART RESULTS. </h1>';
     alert(msg);
     console.log(msg);
+
+    //finally, chart is rendered for the marketers.
     renderChart();
   }
   //update global counter to quit test.
@@ -181,37 +183,61 @@ function addClicks() {
 /*************************************
 ****CHART FUNCTION STUFF SECTION HERE*
 **************************************/
+function renderChart() {
+
+   //dynamically build list of
+function chartLabelBuilder() {
+  var itemNames = [];
+  var returnList = [];
+  for (var i = 0; i < items.length; i++) {
+    returnList = itemNames.push(items[i].name);
+  }
+
+  return returnList;
+ //end of function
+};
+
+ function chartDataBuilder() {
+   var itemClicks = [];
+
+   for (var i = 0; i < items.length; i++) {
+     var returnList = itemClicks.push(items[i].clicked);
+     return returnList;
+   }
+  //end of function
+};
 
 var canvas = document.getElementById('my_chart');
 var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    // labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: chartLabelBuilder(),
     datasets: [
         {
-            label: "My First dataset",
+            label: "Market Test Results",
             backgroundColor: "rgba(255,99,132,0.2)",
             borderColor: "rgba(255,99,132,1)",
             borderWidth: 2,
             hoverBackgroundColor: "rgba(255,99,132,0.4)",
             hoverBorderColor: "rgba(255,99,132,1)",
-            data: [65, 59, 30, 81, 56, 55, 40],
+            // data: [65, 59, 30, 81, 56, 55, 40],
+            data: chartDataBuilder(),
         }
     ]
 };
 var option = {
 animation: {
-			duration:5000
+		duration:5000
 }
 
 };
-
 
 var myBarChart = Chart.Bar(canvas,{
 	data:data,
   options:option
 });
 
-
-
+//end of function
+};
 
 
 
