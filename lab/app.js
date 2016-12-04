@@ -182,44 +182,79 @@ function addClicks() {
 ****CHART FUNCTION STUFF SECTION HERE*
 **************************************/
 
+var canvas = document.getElementById('my_chart');
+var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 2,
+            hoverBackgroundColor: "rgba(255,99,132,0.4)",
+            hoverBorderColor: "rgba(255,99,132,1)",
+            data: [65, 59, 30, 81, 56, 55, 40],
+        }
+    ]
+};
+var option = {
+animation: {
+			duration:5000
+}
+
+};
+
+
+var myBarChart = Chart.Bar(canvas,{
+	data:data,
+  options:option
+});
+
+
+
+
+
+
+
+
 //this should create the new chart in canvas
 // code liberated from chart.js documentation default example
-function renderChart() {
-var ctx = document.getElementById('my_chart').getContext('2d');
-var chartConfig = new Chart (ctx, {
-      type: 'bar',
-      data: {
-          labels: 'Market Test Results',
-          datasets: [{
-              label: items.name,
-              data: items.clicked,
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
-      }
-  });
-};
+// function renderChart() {
+// var ctx = document.getElementById('my_chart').getContext('2d');
+// var chartConfig = new Chart (ctx, {
+//       type: 'bar',
+//       data: {
+//           labels: 'Market Test Results',
+//           datasets: [{
+//               label: items.name,
+//               data: items.clicked,
+//               backgroundColor: [
+//                   'rgba(255, 99, 132, 0.2)',
+//                   'rgba(54, 162, 235, 0.2)',
+//                   'rgba(255, 206, 86, 0.2)',
+//                   'rgba(75, 192, 192, 0.2)',
+//                   'rgba(153, 102, 255, 0.2)',
+//                   'rgba(255, 159, 64, 0.2)'
+//               ],
+//               borderColor: [
+//                   'rgba(255,99,132,1)',
+//                   'rgba(54, 162, 235, 1)',
+//                   'rgba(255, 206, 86, 1)',
+//                   'rgba(75, 192, 192, 1)',
+//                   'rgba(153, 102, 255, 1)',
+//                   'rgba(255, 159, 64, 1)'
+//               ],
+//               borderWidth: 1
+//           }]
+//       },
+//       options: {
+//           scales: {
+//               yAxes: [{
+//                   ticks: {
+//                       beginAtZero:true
+//                   }
+//               }]
+//           }
+//       }
+//   });
+// };
