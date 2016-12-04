@@ -185,51 +185,70 @@ function addClicks() {
 **************************************/
 function renderChart() {
 
-   //dynamically build list of
-function chartLabelBuilder() {
-  var itemNames = [];
-  var returnList = [];
-  for (var i = 0; i < items.length; i++) {
-    returnList = itemNames.push(items[i].name);
-  }
+   //dynamically build list of labels for products
+  function chartLabelBuilder() {
+    var returnLabelList = [];
+    for (var i = 0; i < items.length; i++) {
+      returnLabelList.push(items[i].name);
+    }
 
-  return returnList;
- //end of function
-};
-
- function chartDataBuilder() {
-   var itemClicks = [];
-
-   for (var i = 0; i < items.length; i++) {
-     var returnList = itemClicks.push(items[i].clicked);
-     return returnList;
-   }
+    return returnLabelList;
   //end of function
-};
+  };
 
-var canvas = document.getElementById('my_chart');
-var data = {
+  function chartDataBuilder() {
+    var returnDataList = [];
+    for (var i = 0; i < items.length; i++) {
+      returnDataList.push(items[i].clicked);
+    }
+
+    return returnDataList;
+  //end of function
+  };
+
+  function chartColorBuilder() {
+    var returnColorList = [];
+    for (var i = 0; i < items.length; i++) {
+      returnColorList.push(getRandomColor());
+    }
+
+    return returnColorList;
+  //end of function
+  };
+
+//this function lovingly liberated from stack overflow; https://goo.gl/pe3UTN
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    return color;
+  };
+
+  var canvas = document.getElementById('my_chart');
+  var data = {
     // labels: ["January", "February", "March", "April", "May", "June", "July"],
     labels: chartLabelBuilder(),
     datasets: [
         {
-            label: "Market Test Results",
-            backgroundColor: "rgba(255,99,132,0.2)",
-            borderColor: "rgba(255,99,132,1)",
-            borderWidth: 2,
-            hoverBackgroundColor: "rgba(255,99,132,0.4)",
-            hoverBorderColor: "rgba(255,99,132,1)",
-            // data: [65, 59, 30, 81, 56, 55, 40],
-            data: chartDataBuilder(),
+          label: 'Market Test Results',
+          backgroundColor: chartColorBuilder(),
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 2,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: chartDataBuilder()
         }
     ]
-};
-var option = {
-animation: {
-		duration:5000
-}
+  };
+  var option = {
+    animation: {
+      duration:5000
+    }
 
-};
+  };
 
 var myBarChart = Chart.Bar(canvas,{
 	data:data,
