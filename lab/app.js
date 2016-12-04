@@ -131,7 +131,7 @@ function clickHandler(event) {
     endTest.innerHTML = '<h1> THIS IS THE END OF TEST. HERE ARE THE CHART RESULTS. </h1>';
     alert(msg);
     console.log(msg);
-    chartConfig.render();
+
   }
   //update global counter to quit test.
   totalClicks += 1;
@@ -221,3 +221,10 @@ var chartConfig = new Chart (ctx, {
           }
       }
   });
+
+  if (totalClicks > 25) {
+    var msg = 'Chart will now render to screen'
+    var endTest = document.getElementById('image_display_field');
+    console.log(msg);
+    chartConfig.renderChart(ctx);
+  };
