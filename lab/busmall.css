@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+main {
+  width: 90%;
+}
+
+canvas {
+ margin: 0 auto;
+ padding: 30px;
+ max-width: 75%;
+ max-height: 75%x;
+}
+
+#image_display_field {
+  background: #e7a61a; /*goldenrod*/
+
+}
+
+#image_display_field ul li {
+  list-style-type: none;
+  display: inline;
+}
+
+#image_display_field li img{
+  width: 300px;
+  height: 300px;
+  margin: 12px;
+  padding: 5px;
+}
+
+#image_display_field img:hover{
+  outline: purple;
+  box-shadow: inset 0px 0px 15px 15px rgba(0,0,0,0.85);
+  transition: .5s;
+
+}
