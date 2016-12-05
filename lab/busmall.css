@@ -6,6 +6,10 @@ main {
   width: 90%;
 }
 
+canvas {
+  width: 66%;
+}
+
 #image_display_field {
   background: #e7a61a; /*goldenrod*/
 

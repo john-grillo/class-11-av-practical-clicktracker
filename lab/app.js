@@ -224,7 +224,7 @@ function renderChart() {
       color += letters[Math.floor(Math.random() * 16)];
     }
 
-    return color;
+    return color.slice(0, 7);
   };
 
   var canvas = document.getElementById('my_chart');
@@ -239,15 +239,27 @@ function renderChart() {
           borderWidth: 2,
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
           hoverBorderColor: 'rgba(255,99,132,1)',
-          data: chartDataBuilder()
+          data: chartDataBuilder(),
+          scaleSteps: 1
         }
     ]
   };
   var option = {
     animation: {
       duration:5000
-    }
+    },
+    scales: {
+        yAxes: [{
+            display: true,
+            ticks: {
+                beginAtZero: true,   // minimum value will be 0.
+                fixedStepSize: 1,
+                min: 0,
+                maxTicksLimit: 21,
 
+            }
+        }]
+    }
   };
 
 var myBarChart = Chart.Bar(canvas,{
