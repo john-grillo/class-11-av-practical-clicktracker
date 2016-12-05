@@ -255,7 +255,7 @@ function renderChart() {
                 beginAtZero: true,   // minimum value will be 0.
                 fixedStepSize: 1,
                 min: 0,
-                maxTicksLimit: 21,
+                maxTicksLimit: 25,
 
             }
         }]
